@@ -1,40 +1,69 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
+import { useInternetIdentity } from './useInternetIdentity';
 import type { Person, Achievement, Event, LockerBill, EquipmentItem, LockerDocument, DriveLink, UserProfile } from '../backend';
 import { Principal } from '@dfinity/principal';
 
 // Admin Check
 export function useIsCallerAdmin() {
-  const { actor, isFetching } = useActor();
+  const { actor, isFetching: actorFetching } = useActor();
+  const { identity, isInitializing } = useInternetIdentity();
 
-  return useQuery<boolean>({
-    queryKey: ['isCallerAdmin'],
+  // Include identity principal in query key so it re-runs when user logs in/out
+  const principalKey = identity?.getPrincipal().toString() ?? 'anonymous';
+
+  // We are still "loading" if the identity provider is initializing or the actor is being fetched
+  const isStillInitializing = isInitializing || actorFetching;
+
+  const query = useQuery<boolean>({
+    queryKey: ['isCallerAdmin', principalKey],
     queryFn: async () => {
       if (!actor) return false;
-      return actor.isCallerAdmin();
+      try {
+        return await actor.isCallerAdmin();
+      } catch {
+        return false;
+      }
     },
-    enabled: !!actor && !isFetching,
+    // Only run when actor is ready and we're not in the middle of initializing
+    enabled: !!actor && !actorFetching && !isInitializing,
+    // Always get a fresh result — never serve stale admin status
+    staleTime: 0,
   });
+
+  // isLoading: true while identity/actor is initializing OR while the query itself is running
+  const isLoading = isStillInitializing || query.isLoading || query.isFetching;
+  // isFetched: only true once the actor is ready AND the query has completed
+  const isFetched = !isStillInitializing && !!actor && query.isFetched;
+
+  return {
+    ...query,
+    isLoading,
+    isFetched,
+  };
 }
 
 // User Profile Queries
 export function useGetCallerUserProfile() {
   const { actor, isFetching: actorFetching } = useActor();
+  const { identity, isInitializing } = useInternetIdentity();
+
+  const principalKey = identity?.getPrincipal().toString() ?? 'anonymous';
 
   const query = useQuery<UserProfile | null>({
-    queryKey: ['currentUserProfile'],
+    queryKey: ['currentUserProfile', principalKey],
     queryFn: async () => {
       if (!actor) throw new Error('Actor not available');
       return actor.getCallerUserProfile();
     },
-    enabled: !!actor && !actorFetching,
+    enabled: !!actor && !actorFetching && !isInitializing,
     retry: false,
   });
 
   return {
     ...query,
-    isLoading: actorFetching || query.isLoading,
-    isFetched: !!actor && query.isFetched,
+    isLoading: isInitializing || actorFetching || query.isLoading,
+    isFetched: !isInitializing && !!actor && query.isFetched,
   };
 }
 

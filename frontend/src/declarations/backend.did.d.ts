@@ -46,6 +46,13 @@ export interface Event {
   'images' : [] | [Array<ExternalBlob>],
 }
 export type ExternalBlob = Uint8Array;
+export interface FeedbackEntry {
+  'id' : bigint,
+  'submitter' : Principal,
+  'message' : string,
+  'timestamp' : bigint,
+  'category' : string,
+}
 export interface LockerAccessRequest {
   'status' : RequestStatus,
   'requester' : Principal,
@@ -141,6 +148,7 @@ export interface _SERVICE {
   'getAllDriveLinks' : ActorMethod<[], Array<DriveLink>>,
   'getAllEquipment' : ActorMethod<[], Array<EquipmentItem>>,
   'getAllEvents' : ActorMethod<[], Array<Event>>,
+  'getAllFeedback' : ActorMethod<[], Array<FeedbackEntry>>,
   'getAllPeople' : ActorMethod<[], Array<Person>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
@@ -157,6 +165,7 @@ export interface _SERVICE {
   'requestApproval' : ActorMethod<[], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'setApproval' : ActorMethod<[Principal, ApprovalStatus], undefined>,
+  'submitFeedback' : ActorMethod<[string, string], undefined>,
   'submitLockerAccessRequest' : ActorMethod<[string], undefined>,
   'updateAchievement' : ActorMethod<[string, Achievement], boolean>,
   'updateEvent' : ActorMethod<[string, Event], boolean>,

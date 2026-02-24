@@ -1,80 +1,34 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-24T13:32:26.054Z",
+  "generatedAt": "2026-02-24T14:34:54.846Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 1,
+    "implemented": 1,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "After a user logs in with Internet Identity, the admin panel navigation link must be visible in the header/navigation for admin users. The admin panel should be accessible and render the LockerAccessRequestsPanel component showing all pending access requests.",
+        "summary": "In Layout.tsx, add a visible 'Admin Panel' navigation link that is conditionally rendered only for admin users (using `useIsCallerAdmin` or the equivalent admin-check hook already used in the codebase). The link must navigate to the `/admin` route. It must appear in both the desktop navigation and the mobile menu, and must be reliably visible without requiring any overflow/dropdown menu interaction.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/components/Layout.tsx"
         ],
         "matchedFiles": [
           "frontend/src/components/Layout.tsx"
-        ]
-      },
-      {
-        "id": "REQ-2",
-        "summary": "When a member submits a locker access request, it must be persisted in the backend and retrievable by the admin. The LockerAccessRequestsPanel must display all submitted requests with the requester's principal, timestamp, and status, and allow the admin to approve or deny each request.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useLockerAccess.ts",
-          "frontend/src/hooks/useLockerAccessRequests.ts",
-          "frontend/src/components/LockerAccessRequestsPanel.tsx",
-          "frontend/src/components/LockerAccessGate.tsx",
-          "frontend/src/pages/LockerAccessAdmin.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useLockerAccess.ts",
-          "frontend/src/hooks/useLockerAccessRequests.ts",
-          "frontend/src/components/LockerAccessRequestsPanel.tsx",
-          "frontend/src/components/LockerAccessGate.tsx",
-          "frontend/src/pages/LockerAccessAdmin.tsx"
-        ]
-      },
-      {
-        "id": "REQ-3",
-        "summary": "The LockerAccessGate component must correctly check whether the current authenticated user has been approved for locker access. If the user is not yet approved, show a clear UI to submit an access request. If already approved, render the locker content.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/LockerAccessGate.tsx",
-          "frontend/src/hooks/useLockerAccess.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/LockerAccessGate.tsx",
-          "frontend/src/hooks/useLockerAccess.ts"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
-    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/App.tsx",
     "frontend/src/components/Layout.tsx",
-    "frontend/src/components/LockerAccessGate.tsx",
-    "frontend/src/components/LockerAccessRequestsPanel.tsx",
-    "frontend/src/hooks/useLockerAccess.ts",
-    "frontend/src/hooks/useLockerAccessRequests.ts",
-    "frontend/src/pages/LockerAccessAdmin.tsx",
-    "frontend/src/pages/LockerBills.tsx",
-    "frontend/src/pages/LockerDocuments.tsx",
-    "frontend/src/pages/LockerDriveLinks.tsx",
-    "frontend/src/pages/LockerEquipment.tsx",
-    "frontend/src/pages/LockerPhotos.tsx",
-    "frontend/src/pages/MemberLocker.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

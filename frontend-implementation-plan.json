@@ -1,84 +1,23 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Fix admin panel visibility and access request flow",
+  "title": "Fix missing Admin Panel navigation link in Layout",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Make admin panel navigation link visible in header for admin users after login",
+      "summary": "Add a visible 'Admin Panel' navigation link to Layout.tsx that is conditionally rendered for admin users and appears in both desktop and mobile navigation without requiring overflow menu interaction",
       "acceptanceCriteria": [
-        "After logging in as admin, an 'Admin Panel' link is visible in the navigation",
-        "Clicking the Admin Panel link navigates to the admin page",
-        "The admin page renders LockerAccessRequestsPanel with a list of all access requests",
-        "Non-admin users do not see the Admin Panel link"
+        "When logged in as an admin user, an 'Admin Panel' link is visible in the main navigation header.",
+        "The link is also present in the mobile menu for admin users.",
+        "Clicking the link navigates to the /admin route which renders AdminPanel.tsx.",
+        "Non-admin authenticated users do not see the Admin Panel link.",
+        "Unauthenticated users do not see the Admin Panel link."
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/Layout.tsx",
           "operation": "modify",
-          "description": "Add conditional rendering of an 'Admin Panel' navigation link in both desktop and mobile navigation sections. Use the useIsAdmin hook to check admin status and only show the link when isAdmin is true and not loading. Wire the link to navigate to '/locker/access-admin' route. Place the link in the header navigation alongside existing links (About, Team, Achievements, Events, Member Locker)."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Ensure locker access requests are properly submitted, persisted, and displayed in admin panel with approve/deny actions",
-      "acceptanceCriteria": [
-        "Submitting a locker access request stores the request in the backend",
-        "Admin panel shows all submitted access requests with principal ID, timestamp, and status",
-        "Admin can click Approve to grant locker access to a member",
-        "Admin can click Deny to reject a member's request",
-        "Approved members can access the Member Locker",
-        "Denied members see an appropriate message when trying to access the locker"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useLockerAccess.ts",
-          "operation": "modify",
-          "description": "Review and ensure the useSubmitLockerAccessRequest mutation correctly calls actor.submitLockerAccessRequest with the user's name from their profile. Verify the mutation invalidates the 'lockerAccessStatus' query key after successful submission so the UI updates immediately. Add error handling with user-friendly toast notifications for submission failures."
-        },
-        {
-          "path": "frontend/src/hooks/useLockerAccessRequests.ts",
-          "operation": "modify",
-          "description": "Verify the useLockerAccessRequests query correctly fetches all access requests via actor.getLockerAccessRequests. Ensure the useApproveLockerAccessRequest and useDenyLockerAccessRequest mutations properly call the backend methods and invalidate the 'lockerAccessRequests' query key on success. Add error handling with toast notifications for approve/deny failures."
-        },
-        {
-          "path": "frontend/src/components/LockerAccessRequestsPanel.tsx",
-          "operation": "modify",
-          "description": "Verify the component correctly uses the useLockerAccessRequests hook to fetch and display all access requests. Ensure each request shows the requester's principal (truncated), name, request timestamp (formatted), decision timestamp (if applicable), and current status with appropriate badge styling. Confirm Approve and Deny buttons are wired to the approve/deny mutations and are disabled during loading states. Add empty state UI when no requests exist."
-        },
-        {
-          "path": "frontend/src/components/LockerAccessGate.tsx",
-          "operation": "modify",
-          "description": "Review the access check logic to ensure it correctly handles all states: unauthenticated (show login prompt), authenticated but no access status loaded (show loading), pending request (show 'Request Pending' message), denied (show 'Access Denied' message with red alert styling), approved or admin (render children). Verify the request submission flow captures the user's name from their profile and calls the submitLockerAccessRequest mutation. Ensure all loading and error states display appropriate UI feedback."
-        },
-        {
-          "path": "frontend/src/pages/LockerAccessAdmin.tsx",
-          "operation": "modify",
-          "description": "Confirm the page correctly checks admin status using useIsAdmin hook and redirects or shows an unauthorized message for non-admin users. Verify it renders the LockerAccessRequestsPanel component with proper loading and error state handling. Ensure the page title and description clearly indicate this is the admin panel for managing locker access requests."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Fix LockerAccessGate to correctly check approval status and show appropriate UI for each state",
-      "acceptanceCriteria": [
-        "Unauthenticated users are prompted to log in",
-        "Authenticated users without access see a 'Request Access' button",
-        "Users with a pending request see a 'Request Pending' status message",
-        "Users with denied access see a 'Access Denied' message",
-        "Approved users and admins see the locker content"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/LockerAccessGate.tsx",
-          "operation": "modify",
-          "description": "Refactor the access check logic to use both useLockerAccessStatus (checks getMyLockerAccessStatus) and useIsAdmin hooks. Implement a clear decision tree: (1) If not authenticated, show login prompt. (2) If authenticated and admin, render children immediately. (3) If authenticated non-admin, check access status: if 'approved', render children; if 'pending', show waiting message; if 'denied', show access denied alert; if no status exists, show request submission form. Ensure the request form captures the user's name from their profile via useGetCallerUserProfile and submits via the submitLockerAccessRequest mutation. Add proper loading states and error handling throughout."
-        },
-        {
-          "path": "frontend/src/hooks/useLockerAccess.ts",
-          "operation": "modify",
-          "description": "Ensure useLockerAccessStatus query correctly fetches the current user's access status via actor.getMyLockerAccessStatus and returns the RequestStatus enum value ('pending', 'approved', or 'denied'). Verify the query is properly enabled only when the actor is available and the user is authenticated. Add retry logic and error handling for failed status checks."
+          "description": "Add an 'Admin Panel' navigation link to both the desktop navigation (main nav element) and mobile menu that is conditionally rendered using the useIsCallerAdmin hook. Move the Admin Panel link from the overflow dropdown menu into the main visible navigation areas. Ensure the link uses the Link component from @tanstack/react-router to navigate to '/admin'. The admin check must follow the existing pattern in the codebase using the useIsCallerAdmin hook from hooks/useQueries.ts. The link must be positioned in the primary navigation alongside Home, About, Events, etc., not hidden in any overflow or dropdown menu."
         }
       ]
     }

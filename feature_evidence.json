@@ -2,8 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-after-a-user-logs-in-with-internet-identity-the-admin-panel-navigation-link-must-be-visible-in-the-header-navigation-for-admin-users-the-admin-panel-should-be-accessible-and-render-the-lockeraccessrequestspanel-component-showing-all-pending-access-requests",
-      "featureTitle": "After a user logs in with Internet Identity, the admin panel navigation link must be visible in the header/navigation for admin users. The admin panel should be accessible and render the LockerAccessRequestsPanel component showing all pending access requests.",
+      "featureId": "feature-in-layout-tsx-add-a-visible-admin-panel-navigation-link-that-is-conditionally-rendered-only-for-admin-users-using-useiscalleradmin-or-the-equivalent-admin-check-hook-already-used-in-the-codebase-the-link-must-navigate-to-the-admin-route-it-must-appear-in-both-the-desktop-navigation-and-the-mobile-menu-and-must-be-reliably-visible-without-requiring-any-overflow-dropdown-menu-interaction",
+      "featureTitle": "In Layout.tsx, add a visible 'Admin Panel' navigation link that is conditionally rendered only for admin users (using `useIsCallerAdmin` or the equivalent admin-check hook already used in the codebase). The link must navigate to the `/admin` route. It must appear in both the desktop navigation and the mobile menu, and must be reliably visible without requiring any overflow/dropdown menu interaction.",
       "files": [
         "frontend/src/components/Layout.tsx"
       ],
@@ -19,53 +19,6 @@
       ],
       "testIds": [
         "REQ-1"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-when-a-member-submits-a-locker-access-request-it-must-be-persisted-in-the-backend-and-retrievable-by-the-admin-the-lockeraccessrequestspanel-must-display-all-submitted-requests-with-the-requester-s-principal-timestamp-and-status-and-allow-the-admin-to-approve-or-deny-each-request",
-      "featureTitle": "When a member submits a locker access request, it must be persisted in the backend and retrievable by the admin. The LockerAccessRequestsPanel must display all submitted requests with the requester's principal, timestamp, and status, and allow the admin to approve or deny each request.",
-      "files": [
-        "frontend/src/components/LockerAccessGate.tsx",
-        "frontend/src/components/LockerAccessRequestsPanel.tsx",
-        "frontend/src/hooks/useLockerAccess.ts",
-        "frontend/src/hooks/useLockerAccessRequests.ts",
-        "frontend/src/pages/LockerAccessAdmin.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "user-approval@3.0.0"
-      ],
-      "testIds": [
-        "REQ-2"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-the-lockeraccessgate-component-must-correctly-check-whether-the-current-authenticated-user-has-been-approved-for-locker-access-if-the-user-is-not-yet-approved-show-a-clear-ui-to-submit-an-access-request-if-already-approved-render-the-locker-content",
-      "featureTitle": "The LockerAccessGate component must correctly check whether the current authenticated user has been approved for locker access. If the user is not yet approved, show a clear UI to submit an access request. If already approved, render the locker content.",
-      "files": [
-        "frontend/src/components/LockerAccessGate.tsx",
-        "frontend/src/hooks/useLockerAccess.ts"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "user-approval@3.0.0"
-      ],
-      "testIds": [
-        "REQ-3"
       ],
       "confidence": "high"
     }

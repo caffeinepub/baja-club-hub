@@ -11,16 +11,12 @@ import MixinAuthorization "authorization/MixinAuthorization";
 import Runtime "mo:core/Runtime";
 import UserApproval "user-approval/approval";
 
-// Specify the migration function in the with clause
-import Migration "migration";
-(with migration = Migration.run)
+
+
 actor {
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
   include MixinStorage();
-
-  // --- User approval system state ---
-  let approvalState = UserApproval.initState(accessControlState);
 
   // --- Data Types ---
 
@@ -108,6 +104,14 @@ actor {
     #denied;
   };
 
+  public type FeedbackEntry = {
+    id : Nat;
+    submitter : Principal;
+    category : Text;
+    message : Text;
+    timestamp : Int;
+  };
+
   // --- Persistent Maps ---
   var people = Map.empty<Principal, Person>();
   var achievements = Map.empty<Text, Achievement>();
@@ -118,6 +122,12 @@ actor {
   var driveLinks = Map.empty<Text, DriveLink>();
   var userProfiles = Map.empty<Principal, UserProfile>();
   var lockerAccessRequests = Map.empty<Principal, LockerAccessRequest>();
+  var feedbackEntries = Map.empty<Nat, FeedbackEntry>();
+
+  var nextFeedbackId = 0;
+
+  // --- User approval system state ---
+  let approvalState = UserApproval.initState(accessControlState);
 
   // --- User Approval Functions ---
 
@@ -145,7 +155,7 @@ actor {
 
   // --- Permissions Check Helpers ---
   func checkIsAdmin(caller : Principal) {
-    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
       Runtime.trap("Unauthorized: Only admins can perform this action");
     };
   };
@@ -157,14 +167,14 @@ actor {
   };
 
   func checkIsOwnerOrAdmin(caller : Principal, owner : Principal) {
-    if (caller != owner and not AccessControl.isAdmin(accessControlState, caller)) {
+    if (caller != owner and not AccessControl.hasPermission(accessControlState, caller, #admin)) {
       Runtime.trap("Unauthorized: Can only modify your own items");
     };
   };
 
   // Admins bypass the locker access check; non-admin callers must have an approved request.
   func checkLockerAccess(caller : Principal) {
-    if (AccessControl.isAdmin(accessControlState, caller)) {
+    if (AccessControl.hasPermission(accessControlState, caller, #admin)) {
       return;
     };
     if (not (isLockerAccessGranted(caller))) {
@@ -285,7 +295,7 @@ actor {
   public shared ({ caller }) func addBill(bill : LockerBill) : async Bool {
     checkLockerAccess(caller);
 
-    if (bill.author != caller and not AccessControl.isAdmin(accessControlState, caller)) {
+    if (bill.author != caller and not AccessControl.hasPermission(accessControlState, caller, #admin)) {
       Runtime.trap("Unauthorized: Cannot create bills for other users");
     };
 
@@ -316,7 +326,7 @@ actor {
   public shared ({ caller }) func addEquipment(equipmentItem : EquipmentItem) : async Bool {
     checkLockerAccess(caller);
 
-    if (equipmentItem.addedBy != caller and not AccessControl.isAdmin(accessControlState, caller)) {
+    if (equipmentItem.addedBy != caller and not AccessControl.hasPermission(accessControlState, caller, #admin)) {
       Runtime.trap("Unauthorized: Cannot create equipment for other users");
     };
 
@@ -347,7 +357,7 @@ actor {
   public shared ({ caller }) func addDocument(doc : LockerDocument) : async Bool {
     checkLockerAccess(caller);
 
-    if (doc.author != caller and not AccessControl.isAdmin(accessControlState, caller)) {
+    if (doc.author != caller and not AccessControl.hasPermission(accessControlState, caller, #admin)) {
       Runtime.trap("Unauthorized: Cannot create documents for other users");
     };
 
@@ -378,7 +388,7 @@ actor {
   public shared ({ caller }) func addDriveLink(link : DriveLink) : async Bool {
     checkLockerAccess(caller);
 
-    if (link.author != caller and not AccessControl.isAdmin(accessControlState, caller)) {
+    if (link.author != caller and not AccessControl.hasPermission(accessControlState, caller, #admin)) {
       Runtime.trap("Unauthorized: Cannot create links for other users");
     };
 
@@ -487,7 +497,7 @@ actor {
   };
 
   public query ({ caller }) func getUserProfile(user : Principal) : async ?UserProfile {
-    if (caller != user and not AccessControl.isAdmin(accessControlState, caller)) {
+    if (caller != user and not AccessControl.hasPermission(accessControlState, caller, #admin)) {
       Runtime.trap("Unauthorized: Can only view your own profile");
     };
     userProfiles.get(user);
@@ -498,5 +508,30 @@ actor {
       Runtime.trap("Unauthorized: Only users can save profiles");
     };
     userProfiles.add(caller, profile);
+  };
+
+  // --- Feedback ---
+  // Public function to submit feedback
+  public shared ({ caller }) func submitFeedback(category : Text, message : Text) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can submit feedback");
+    };
+
+    let feedback : FeedbackEntry = {
+      id = nextFeedbackId;
+      submitter = caller;
+      category;
+      message;
+      timestamp = Time.now();
+    };
+
+    feedbackEntries.add(nextFeedbackId, feedback);
+    nextFeedbackId += 1;
+  };
+
+  // Admin-only function to get all feedback entries
+  public query ({ caller }) func getAllFeedback() : async [FeedbackEntry] {
+    checkIsAdmin(caller);
+    feedbackEntries.values().toArray();
   };
 };

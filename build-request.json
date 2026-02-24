@@ -1,80 +1,38 @@
 {
   "kind": "build_request",
-  "title": "Fix admin panel visibility and access request flow",
-  "projectName": "VVCEBAJA",
+  "title": "Fix missing Admin Panel navigation link in Layout",
   "priority": "high",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "After a user logs in with Internet Identity, the admin panel navigation link must be visible in the header/navigation for admin users. The admin panel should be accessible and render the LockerAccessRequestsPanel component showing all pending access requests.",
+      "text": "In Layout.tsx, add a visible 'Admin Panel' navigation link that is conditionally rendered only for admin users (using `useIsCallerAdmin` or the equivalent admin-check hook already used in the codebase). The link must navigate to the `/admin` route. It must appear in both the desktop navigation and the mobile menu, and must be reliably visible without requiring any overflow/dropdown menu interaction.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-recent"
+          "msg-4"
         ],
         "quotes": [
-          "no admin panel is not showing",
-          "no i cant see anything fix it"
+          "see you only there is no admin panel"
         ]
       },
       "acceptanceCriteria": [
-        "After logging in as admin, an 'Admin Panel' link is visible in the navigation",
-        "Clicking the Admin Panel link navigates to the admin page",
-        "The admin page renders LockerAccessRequestsPanel with a list of all access requests",
-        "Non-admin users do not see the Admin Panel link"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "When a member submits a locker access request, it must be persisted in the backend and retrievable by the admin. The LockerAccessRequestsPanel must display all submitted requests with the requester's principal, timestamp, and status, and allow the admin to approve or deny each request.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "2 is also not",
-          "no i cant see anything fix it"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Submitting a locker access request stores the request in the backend",
-        "Admin panel shows all submitted access requests with principal ID, timestamp, and status",
-        "Admin can click Approve to grant locker access to a member",
-        "Admin can click Deny to reject a member's request",
-        "Approved members can access the Member Locker",
-        "Denied members see an appropriate message when trying to access the locker"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "The LockerAccessGate component must correctly check whether the current authenticated user has been approved for locker access. If the user is not yet approved, show a clear UI to submit an access request. If already approved, render the locker content.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-recent"
-        ],
-        "quotes": [
-          "no i cant see anything fix it"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Unauthenticated users are prompted to log in",
-        "Authenticated users without access see a 'Request Access' button",
-        "Users with a pending request see a 'Request Pending' status message",
-        "Users with denied access see a 'Access Denied' message",
-        "Approved users and admins see the locker content"
+        "When logged in as an admin user, an 'Admin Panel' link is visible in the main navigation header.",
+        "The link is also present in the mobile menu for admin users.",
+        "Clicking the link navigates to the /admin route which renders AdminPanel.tsx.",
+        "Non-admin authenticated users do not see the Admin Panel link.",
+        "Unauthenticated users do not see the Admin Panel link."
       ]
     }
   ],
   "constraints": [
-    "Do not change the existing backend data types or storage maps unless required to fix the access request persistence bug",
-    "Do not modify files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui"
+    "Do not modify any files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui.",
+    "Do not change the /admin route definition or AdminPanel.tsx logic.",
+    "The admin check must use the existing hook pattern already present in the codebase (e.g., useIsCallerAdmin or equivalent from useQueries.ts)."
   ],
   "nonGoals": [
-    "Adding new locker sections or features",
-    "Changing the visual design or theme",
-    "Adding email or push notifications for access requests"
+    "Changing the AdminPanel page content or functionality.",
+    "Adding new backend endpoints.",
+    "Modifying access control logic in the backend."
   ],
   "imageRequirements": {
     "required": [],

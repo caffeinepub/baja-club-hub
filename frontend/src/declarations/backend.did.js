@@ -82,6 +82,13 @@ export const UserRole = IDL.Variant({
   'user' : IDL.Null,
   'guest' : IDL.Null,
 });
+export const FeedbackEntry = IDL.Record({
+  'id' : IDL.Nat,
+  'submitter' : IDL.Principal,
+  'message' : IDL.Text,
+  'timestamp' : IDL.Int,
+  'category' : IDL.Text,
+});
 export const UserProfile = IDL.Record({
   'joinDate' : IDL.Text,
   'name' : IDL.Text,
@@ -157,6 +164,7 @@ export const idlService = IDL.Service({
   'getAllDriveLinks' : IDL.Func([], [IDL.Vec(DriveLink)], ['query']),
   'getAllEquipment' : IDL.Func([], [IDL.Vec(EquipmentItem)], ['query']),
   'getAllEvents' : IDL.Func([], [IDL.Vec(Event)], ['query']),
+  'getAllFeedback' : IDL.Func([], [IDL.Vec(FeedbackEntry)], ['query']),
   'getAllPeople' : IDL.Func([], [IDL.Vec(Person)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
@@ -181,6 +189,7 @@ export const idlService = IDL.Service({
   'requestApproval' : IDL.Func([], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'setApproval' : IDL.Func([IDL.Principal, ApprovalStatus], [], []),
+  'submitFeedback' : IDL.Func([IDL.Text, IDL.Text], [], []),
   'submitLockerAccessRequest' : IDL.Func([IDL.Text], [], []),
   'updateAchievement' : IDL.Func([IDL.Text, Achievement], [IDL.Bool], []),
   'updateEvent' : IDL.Func([IDL.Text, Event], [IDL.Bool], []),
@@ -264,6 +273,13 @@ export const idlFactory = ({ IDL }) => {
     'user' : IDL.Null,
     'guest' : IDL.Null,
   });
+  const FeedbackEntry = IDL.Record({
+    'id' : IDL.Nat,
+    'submitter' : IDL.Principal,
+    'message' : IDL.Text,
+    'timestamp' : IDL.Int,
+    'category' : IDL.Text,
+  });
   const UserProfile = IDL.Record({
     'joinDate' : IDL.Text,
     'name' : IDL.Text,
@@ -339,6 +355,7 @@ export const idlFactory = ({ IDL }) => {
     'getAllDriveLinks' : IDL.Func([], [IDL.Vec(DriveLink)], ['query']),
     'getAllEquipment' : IDL.Func([], [IDL.Vec(EquipmentItem)], ['query']),
     'getAllEvents' : IDL.Func([], [IDL.Vec(Event)], ['query']),
+    'getAllFeedback' : IDL.Func([], [IDL.Vec(FeedbackEntry)], ['query']),
     'getAllPeople' : IDL.Func([], [IDL.Vec(Person)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
@@ -363,6 +380,7 @@ export const idlFactory = ({ IDL }) => {
     'requestApproval' : IDL.Func([], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'setApproval' : IDL.Func([IDL.Principal, ApprovalStatus], [], []),
+    'submitFeedback' : IDL.Func([IDL.Text, IDL.Text], [], []),
     'submitLockerAccessRequest' : IDL.Func([IDL.Text], [], []),
     'updateAchievement' : IDL.Func([IDL.Text, Achievement], [IDL.Bool], []),
     'updateEvent' : IDL.Func([IDL.Text, Event], [IDL.Bool], []),

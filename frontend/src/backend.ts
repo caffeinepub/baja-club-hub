@@ -120,6 +120,13 @@ export interface DriveLink {
     author: Principal;
     dateAdded: string;
 }
+export interface FeedbackEntry {
+    id: bigint;
+    submitter: Principal;
+    message: string;
+    timestamp: bigint;
+    category: string;
+}
 export interface Achievement {
     title: string;
     date: string;
@@ -216,6 +223,7 @@ export interface backendInterface {
     getAllDriveLinks(): Promise<Array<DriveLink>>;
     getAllEquipment(): Promise<Array<EquipmentItem>>;
     getAllEvents(): Promise<Array<Event>>;
+    getAllFeedback(): Promise<Array<FeedbackEntry>>;
     getAllPeople(): Promise<Array<Person>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
@@ -232,6 +240,7 @@ export interface backendInterface {
     requestApproval(): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
     setApproval(user: Principal, status: ApprovalStatus): Promise<void>;
+    submitFeedback(category: string, message: string): Promise<void>;
     submitLockerAccessRequest(name: string): Promise<void>;
     updateAchievement(title: string, updatedAchievement: Achievement): Promise<boolean>;
     updateEvent(title: string, updatedEvent: Event): Promise<boolean>;
@@ -618,6 +627,20 @@ export class Backend implements backendInterface {
             return from_candid_vec_n39(this._uploadFile, this._downloadFile, result);
         }
     }
+    async getAllFeedback(): Promise<Array<FeedbackEntry>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAllFeedback();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAllFeedback();
+            return result;
+        }
+    }
     async getAllPeople(): Promise<Array<Person>> {
         if (this.processError) {
             try {
@@ -839,6 +862,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.setApproval(arg0, to_candid_ApprovalStatus_n64(this._uploadFile, this._downloadFile, arg1));
+            return result;
+        }
+    }
+    async submitFeedback(arg0: string, arg1: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.submitFeedback(arg0, arg1);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.submitFeedback(arg0, arg1);
             return result;
         }
     }

@@ -15,6 +15,9 @@ import LockerEquipment from './pages/LockerEquipment';
 import LockerPhotos from './pages/LockerPhotos';
 import LockerDriveLinks from './pages/LockerDriveLinks';
 import LockerAccessAdmin from './pages/LockerAccessAdmin';
+import Settings from './pages/Settings';
+import Feedback from './pages/Feedback';
+import AdminPanel from './pages/AdminPanel';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -101,6 +104,24 @@ const lockerAccessAdminRoute = createRoute({
   component: LockerAccessAdmin,
 });
 
+const settingsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/settings',
+  component: Settings,
+});
+
+const feedbackRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/feedback',
+  component: Feedback,
+});
+
+const adminPanelRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin',
+  component: AdminPanel,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   aboutRoute,
@@ -114,6 +135,9 @@ const routeTree = rootRoute.addChildren([
   lockerPhotosRoute,
   lockerDriveLinksRoute,
   lockerAccessAdminRoute,
+  settingsRoute,
+  feedbackRoute,
+  adminPanelRoute,
 ]);
 
 const router = createRouter({ routeTree });

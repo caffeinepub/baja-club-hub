@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, Outlet, useNavigate } from '@tanstack/react-router';
 import { useInternetIdentity } from '../hooks/useInternetIdentity';
 import { useQueryClient } from '@tanstack/react-query';
 import { useIsCallerAdmin, useGetCallerUserProfile } from '../hooks/useQueries';
-import { Menu, X, LogIn, LogOut, Shield } from 'lucide-react';
+import {
+  Menu, X, LogIn, LogOut, Shield, MoreVertical,
+  Settings, MessageSquare, Info, BookOpen, LogOut as LogOutIcon
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Layout() {
-  const { login, clear, loginStatus, identity } = useInternetIdentity();
+  const { login, clear, loginStatus, identity, isInitializing } = useInternetIdentity();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [overflowMenuOpen, setOverflowMenuOpen] = useState(false);
+  const overflowMenuRef = useRef<HTMLDivElement>(null);
 
   const isAuthenticated = !!identity;
   const isLoggingIn = loginStatus === 'logging-in';
 
-  const { data: isAdmin } = useIsCallerAdmin();
+  const { data: isAdmin, isLoading: adminLoading } = useIsCallerAdmin();
   const { data: userProfile } = useGetCallerUserProfile();
 
   const handleAuth = async () => {
@@ -35,6 +40,40 @@ export default function Layout() {
     }
   };
 
+  const handleLogout = async () => {
+    setOverflowMenuOpen(false);
+    await clear();
+    queryClient.clear();
+    navigate({ to: '/' });
+  };
+
+  const handleOverflowNav = (path: string) => {
+    setOverflowMenuOpen(false);
+    navigate({ to: path });
+  };
+
+  // Close overflow menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (overflowMenuRef.current && !overflowMenuRef.current.contains(event.target as Node)) {
+        setOverflowMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOverflowMenuOpen(false);
+      }
+    };
+    if (overflowMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [overflowMenuOpen]);
+
   const navLinks = [
     { to: '/', label: 'Home' },
     { to: '/about', label: 'About' },
@@ -42,6 +81,17 @@ export default function Layout() {
     { to: '/achievements', label: 'Achievements' },
     { to: '/events', label: 'Events' },
     { to: '/locker', label: 'Member Locker' },
+  ];
+
+  // Show admin link as soon as isAdmin is confirmed true
+  // isAdmin starts as undefined (loading), becomes true only when backend confirms admin status
+  const showAdminLink = isAuthenticated && !adminLoading && isAdmin === true;
+
+  const overflowMenuItems = [
+    { label: 'Resources', icon: BookOpen, path: '/locker', highlight: false },
+    { label: 'Settings', icon: Settings, path: '/settings', highlight: false },
+    { label: 'Feedback', icon: MessageSquare, path: '/feedback', highlight: false },
+    { label: 'About Club', icon: Info, path: '/about', highlight: false },
   ];
 
   return (
@@ -73,25 +123,37 @@ export default function Layout() {
                   {link.label}
                 </Link>
               ))}
-              {isAdmin && (
+              {showAdminLink && (
                 <Link
-                  to="/locker/access-admin"
+                  to="/admin"
                   className="px-3 py-2 rounded-md text-sm font-medium text-primary hover:text-primary/80 hover:bg-primary/10 transition-colors flex items-center gap-1"
                   activeProps={{ className: 'px-3 py-2 rounded-md text-sm font-medium text-primary bg-primary/10 flex items-center gap-1' }}
                 >
                   <Shield className="h-3.5 w-3.5" />
-                  Admin Panel
+                  Admin
                 </Link>
               )}
             </nav>
 
-            {/* Right side: user info + auth button */}
-            <div className="flex items-center gap-3">
+            {/* Right side: user info + admin button + auth button + overflow menu */}
+            <div className="flex items-center gap-2">
               {isAuthenticated && userProfile?.name && (
                 <span className="hidden sm:block text-sm text-muted-foreground">
                   {userProfile.name}
                 </span>
               )}
+
+              {/* Admin Panel button — always visible on all screen sizes when admin */}
+              {showAdminLink && (
+                <Link
+                  to="/admin"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
+                >
+                  <Shield className="h-3.5 w-3.5" />
+                  <span className="hidden xs:inline">Admin</span>
+                </Link>
+              )}
+
               <Button
                 onClick={handleAuth}
                 disabled={isLoggingIn}
@@ -122,6 +184,115 @@ export default function Layout() {
               >
                 {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
+
+              {/* 3-dot Overflow Menu */}
+              <div className="relative" ref={overflowMenuRef}>
+                <button
+                  onClick={() => setOverflowMenuOpen(!overflowMenuOpen)}
+                  aria-label="More options"
+                  className={`
+                    p-2 rounded-md transition-all duration-150
+                    text-muted-foreground hover:text-primary hover:bg-primary/10
+                    active:scale-90
+                    ${overflowMenuOpen ? 'text-primary bg-primary/10' : ''}
+                  `}
+                >
+                  <MoreVertical className="h-5 w-5" />
+                </button>
+
+                {/* Dropdown */}
+                <div
+                  className={`
+                    absolute right-0 top-full mt-2 w-56 z-50
+                    bg-carbon-black border border-border/60
+                    rounded-xl shadow-2xl overflow-hidden
+                    transition-all duration-200 ease-out origin-top-right
+                    ${overflowMenuOpen
+                      ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+                      : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+                    }
+                  `}
+                  style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04)' }}
+                >
+                  {/* Header accent bar */}
+                  <div className="h-0.5 w-full bg-gradient-to-r from-primary via-primary/60 to-transparent" />
+
+                  <div className="py-1.5">
+                    {/* Admin Panel always at top of overflow menu when admin */}
+                    {showAdminLink && (
+                      <button
+                        onClick={() => handleOverflowNav('/admin')}
+                        className="
+                          w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold
+                          transition-all duration-150 text-left
+                          min-h-[44px]
+                          text-primary hover:bg-primary/15 hover:text-primary
+                          active:scale-[0.98] active:bg-primary/20
+                        "
+                      >
+                        <Shield className="h-4 w-4 shrink-0 text-primary" />
+                        <span>Admin Panel</span>
+                      </button>
+                    )}
+
+                    {overflowMenuItems.map((item, index) => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.path + index}
+                          onClick={() => handleOverflowNav(item.path)}
+                          className={`
+                            w-full flex items-center gap-3 px-4 py-3 text-sm font-medium
+                            transition-all duration-150 text-left
+                            min-h-[44px]
+                            text-foreground/80 hover:bg-primary/10 hover:text-primary
+                            active:scale-[0.98] active:bg-primary/20
+                          `}
+                        >
+                          <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
+                          <span>{item.label}</span>
+                        </button>
+                      );
+                    })}
+
+                    {/* Separator before logout */}
+                    <div className="my-1.5 mx-3 border-t border-border/40" />
+
+                    {/* Logout / Login */}
+                    {isAuthenticated ? (
+                      <button
+                        onClick={handleLogout}
+                        className="
+                          w-full flex items-center gap-3 px-4 py-3 text-sm font-medium
+                          text-destructive hover:bg-destructive/10 hover:text-destructive
+                          transition-all duration-150 text-left min-h-[44px]
+                          active:scale-[0.98] active:bg-destructive/20
+                        "
+                      >
+                        <LogOutIcon className="h-4 w-4 shrink-0" />
+                        <span>Logout</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setOverflowMenuOpen(false);
+                          handleAuth();
+                        }}
+                        disabled={isLoggingIn}
+                        className="
+                          w-full flex items-center gap-3 px-4 py-3 text-sm font-medium
+                          text-primary hover:bg-primary/10
+                          transition-all duration-150 text-left min-h-[44px]
+                          active:scale-[0.98] disabled:opacity-50
+                        "
+                      >
+                        <LogIn className="h-4 w-4 shrink-0" />
+                        <span>{isLoggingIn ? 'Logging in...' : 'Login'}</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -141,11 +312,11 @@ export default function Layout() {
                   {link.label}
                 </Link>
               ))}
-              {isAdmin && (
+              {showAdminLink && (
                 <Link
-                  to="/locker/access-admin"
-                  className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-primary hover:text-primary/80 hover:bg-primary/10 transition-colors"
-                  activeProps={{ className: 'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-primary bg-primary/10' }}
+                  to="/admin"
+                  className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-semibold text-primary hover:text-primary/80 hover:bg-primary/10 border border-primary/20 transition-colors"
+                  activeProps={{ className: 'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-semibold text-primary bg-primary/10 border border-primary/20' }}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <Shield className="h-3.5 w-3.5" />
@@ -187,23 +358,20 @@ export default function Layout() {
               />
               <span className="text-sm font-semibold text-foreground">VVCEBAJA</span>
             </div>
-            <div className="text-center text-sm text-muted-foreground space-y-1">
-              <p>© {new Date().getFullYear()} VVCEBAJA. All rights reserved.</p>
-              <p className="text-xs">#BuiltBeyondBounds</p>
-            </div>
-            <div className="text-sm text-muted-foreground">
-              Built with{' '}
-              <span className="text-red-500">♥</span>{' '}
-              using{' '}
+            <p className="text-xs text-muted-foreground text-center">
+              © {new Date().getFullYear()} VVCEBAJA. All rights reserved.
+            </p>
+            <p className="text-xs text-muted-foreground text-center">
+              Built with ❤️ using{' '}
               <a
                 href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(typeof window !== 'undefined' ? window.location.hostname : 'vvcebaja')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:underline"
+                className="underline hover:text-foreground transition-colors"
               >
                 caffeine.ai
               </a>
-            </div>
+            </p>
           </div>
         </div>
       </footer>
