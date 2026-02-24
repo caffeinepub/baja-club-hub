@@ -1,10 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Rebrand the application from "Baja Club Hub" to "VVCEBAJA" and update footer branding text.
+**Goal:** Replace the application logo and hero image with custom VVCE BAJA branding images.
 
 **Planned changes:**
-- Replace all instances of "Baja Club Hub" with "VVCEBAJA" in the frontend (HTML title, header, navigation)
-- Update footer text from "built using Caffeine AI" to "#BuiltBeyondBounds"
+- Replace the header logo with the uploaded VVCE BAJA shield logo (baja logo.jpg)
+- Replace the home page hero/cover image with the uploaded baja vehicle racing photo (image page.jpg)
 
-**User-visible outcome:** The application displays "VVCEBAJA" as the club name throughout the interface, and the footer shows "#BuiltBeyondBounds" instead of the previous Caffeine AI attribution.
+**User-visible outcome:** The application displays the official VVCE BAJA branding with the club's shield logo in the header and an action shot of the baja vehicle on the home page hero section.

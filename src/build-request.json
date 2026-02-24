@@ -1,55 +1,53 @@
 {
   "kind": "build_request",
-  "title": "Rebrand app name to VVCEBAJA and update footer text",
+  "title": "Replace logo and cover page images with custom uploads",
   "projectName": "VVCEBAJA",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Change the application name from 'Baja Club Hub' to 'VVCEBAJA' throughout the frontend, including the HTML title tag, header logo text, and any other display locations",
+      "text": "Replace the current logo image with the uploaded 'baja logo.jpg' (VVCE BAJA shield with red baja vehicle and checkered flags)",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-20"
+          "msg-6"
         ],
         "quotes": [
-          "i want the clud name as VVCEBAJA instead of baja club hub"
+          "i need this for logo of 1st image"
         ]
       },
       "acceptanceCriteria": [
-        "HTML document title displays 'VVCEBAJA'",
-        "Header/navigation displays 'VVCEBAJA' instead of 'Baja Club Hub'",
-        "All references to 'Baja Club Hub' are replaced with 'VVCEBAJA'"
+        "The header logo displays the VVCE BAJA shield design from the uploaded image",
+        "Logo maintains proper aspect ratio and sizing in the header",
+        "Logo is visible on all pages"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Replace the footer text 'built using Caffeine AI' with '#BuiltBeyondBounds' in the Layout component footer section",
+      "text": "Replace the cover page jeep photo with the uploaded 'image page.jpg' (baja vehicle on track with driver)",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-20"
+          "msg-6"
         ],
         "quotes": [
-          "you have not changed that footer that build with using caffein ai i don't want that instead i want #BuiltBeyondBounds"
+          "2nd one for the cover page instead of that jeap photo"
         ]
       },
       "acceptanceCriteria": [
-        "Footer displays '#BuiltBeyondBounds' text",
-        "No references to 'Caffeine AI' remain in the footer",
-        "Footer styling remains consistent with existing design"
+        "The home page hero section displays the baja vehicle racing image instead of the current jeep photo",
+        "Image fits properly within the hero section layout",
+        "Image quality is preserved"
       ]
     }
   ],
   "constraints": [
-    "Do not modify backend code or data structures",
-    "Preserve all existing functionality and authentication flows",
-    "Maintain existing UI component structure and styling"
+    "Use the exact uploaded images without modification",
+    "Maintain current layout and responsive behavior"
   ],
   "nonGoals": [
-    "Changing color scheme or visual design",
-    "Modifying any backend API endpoints or data models",
-    "Adding new features or functionality"
+    "Changing any other branding elements",
+    "Modifying the header or hero section layouts"
   ],
   "imageRequirements": {
     "required": [],

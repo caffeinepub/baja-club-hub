@@ -14,6 +14,6 @@
   "frontend/src/components/BillCard.tsx": "Card component displaying bill information with image, amount, date, author name (from user profile), and delete functionality for admins.",
   "frontend/src/components/DocumentCard.tsx": "Card component displaying document information with title, description, tags, date, author name (from user profile), download, and delete functionality for admins.",
   "frontend/index.html": "HTML entry point with updated document title \"VVCEBAJA\"",
-  "frontend/src/components/Layout.tsx": "Main layout component with header navigation, mobile menu, and footer displaying \"VVCEBAJA\" branding and \"#BuiltBeyondBounds\" footer text",
-  "frontend/src/pages/Home.tsx": "Home page component with hero section displaying \"VVCEBAJA\" title and navigation cards to team, achievements, events, and member locker sections"
+  "frontend/src/components/Layout.tsx": "Main layout component with header navigation displaying the VVCE BAJA shield logo, mobile menu, and footer with VVCEBAJA branding and #BuiltBeyondBounds footer text.",
+  "frontend/src/pages/Home.tsx": "Home page component with hero section displaying the baja vehicle racing image and navigation cards to team, achievements, events, and member locker sections."
 }

@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="container flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src="/assets/generated/club-logo.dim_200x200.png" alt="VVCEBAJA Logo" className="h-10 w-10" />
+            <img src="/assets/baja-logo.jpg" alt="VVCE BAJA Logo" className="h-10 w-10 object-contain" />
             <span className="font-bold text-xl text-racing-red tracking-tight">VVCEBAJA</span>
           </Link>
 

@@ -1,47 +1,47 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Rebrand app name to VVCEBAJA and update footer text",
+  "title": "Replace logo and cover page images with custom uploads",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Change the application name from 'Baja Club Hub' to 'VVCEBAJA' throughout the frontend",
+      "summary": "Replace the current logo image with the uploaded 'baja logo.jpg' (VVCE BAJA shield with red baja vehicle and checkered flags)",
       "acceptanceCriteria": [
-        "HTML document title displays 'VVCEBAJA'",
-        "Header/navigation displays 'VVCEBAJA' instead of 'Baja Club Hub'",
-        "All references to 'Baja Club Hub' are replaced with 'VVCEBAJA'"
+        "The header logo displays the VVCE BAJA shield design from the uploaded image",
+        "Logo maintains proper aspect ratio and sizing in the header",
+        "Logo is visible on all pages"
       ],
       "file_operations": [
         {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Update the HTML document title tag from 'Baja Club Hub' to 'VVCEBAJA' to reflect the new application branding"
+          "path": "frontend/public/assets/baja-logo.jpg",
+          "operation": "create",
+          "description": "Copy the uploaded 'baja logo.jpg' to the frontend public assets directory as 'baja-logo.jpg' to make it accessible as a static asset throughout the application"
         },
         {
           "path": "frontend/src/components/Layout.tsx",
           "operation": "modify",
-          "description": "Replace the header logo text from 'Baja Club Hub' to 'VVCEBAJA' in both desktop and mobile navigation sections"
-        },
-        {
-          "path": "frontend/src/pages/Home.tsx",
-          "operation": "modify",
-          "description": "Update any references to 'Baja Club Hub' in the hero section or text content to 'VVCEBAJA'"
+          "description": "Update the header logo img src to reference '/assets/baja-logo.jpg' instead of the current generated logo path. Ensure the alt text reflects 'VVCE BAJA Logo' and verify responsive sizing is maintained for both desktop and mobile views"
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Replace the footer text 'built using Caffeine AI' with '#BuiltBeyondBounds'",
+      "summary": "Replace the cover page jeep photo with the uploaded 'image page.jpg' (baja vehicle on track with driver)",
       "acceptanceCriteria": [
-        "Footer displays '#BuiltBeyondBounds' text",
-        "No references to 'Caffeine AI' remain in the footer",
-        "Footer styling remains consistent with existing design"
+        "The home page hero section displays the baja vehicle racing image instead of the current jeep photo",
+        "Image fits properly within the hero section layout",
+        "Image quality is preserved"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/Layout.tsx",
+          "path": "frontend/public/assets/baja-hero.jpg",
+          "operation": "create",
+          "description": "Copy the uploaded 'image page.jpg' to the frontend public assets directory as 'baja-hero.jpg' to replace the current hero image with the racing baja vehicle photo"
+        },
+        {
+          "path": "frontend/src/pages/Home.tsx",
           "operation": "modify",
-          "description": "Update the footer section to replace 'built using Caffeine AI' text with '#BuiltBeyondBounds' while maintaining the existing styling and layout structure"
+          "description": "Update the hero section background image or img src to reference '/assets/baja-hero.jpg' instead of the current generated hero image path. Ensure the image maintains proper aspect ratio, fits within the hero section layout, and preserves image quality with appropriate object-fit styling"
         }
       ]
     }
