@@ -42,7 +42,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[400px] overflow-hidden">
         <img
-          src="/assets/baja-hero.jpg"
+          src="/assets/image%20page.jpg"
           alt="Baja Racing"
           className="w-full h-full object-cover"
         />

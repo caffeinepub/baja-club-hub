@@ -1,21 +1,20 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-24T02:43:13.028Z",
+  "generatedAt": "2026-02-24T02:55:02.653Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Replace the current logo image with the uploaded 'baja logo.jpg' (VVCE BAJA shield with red baja vehicle and checkered flags)",
+        "summary": "Fix the logo image display in Layout.tsx - ensure 'baja logo.jpg' loads correctly from the proper file path (frontend/src/assets/ or frontend/public/assets/) and displays without broken image icons",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/baja-logo.jpg",
           "frontend/src/components/Layout.tsx"
         ],
         "matchedFiles": [
@@ -24,13 +23,25 @@
       },
       {
         "id": "REQ-2",
-        "summary": "Replace the cover page jeep photo with the uploaded 'image page.jpg' (baja vehicle on track with driver)",
+        "summary": "Fix the cover image display in Home.tsx - ensure 'image page.jpg' loads correctly from the proper file path (frontend/src/assets/ or frontend/public/assets/) and displays without broken image icons",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/baja-hero.jpg",
           "frontend/src/pages/Home.tsx"
         ],
         "matchedFiles": [
+          "frontend/src/pages/Home.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Verify image import syntax is correct in both Layout.tsx and Home.tsx - use proper React import statements for static assets or correct public path references",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/Layout.tsx",
+          "frontend/src/pages/Home.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/Layout.tsx",
           "frontend/src/pages/Home.tsx"
         ]
       }

@@ -1,47 +1,57 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Replace logo and cover page images with custom uploads",
+  "title": "Fix broken logo and cover image display",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Replace the current logo image with the uploaded 'baja logo.jpg' (VVCE BAJA shield with red baja vehicle and checkered flags)",
+      "summary": "Fix the logo image display in Layout.tsx - ensure 'baja logo.jpg' loads correctly from the proper file path and displays without broken image icons",
       "acceptanceCriteria": [
-        "The header logo displays the VVCE BAJA shield design from the uploaded image",
-        "Logo maintains proper aspect ratio and sizing in the header",
-        "Logo is visible on all pages"
+        "Logo image displays correctly in the header",
+        "No broken image icon appears for the logo",
+        "Image loads on page refresh"
       ],
       "file_operations": [
         {
-          "path": "frontend/public/assets/baja-logo.jpg",
-          "operation": "create",
-          "description": "Copy the uploaded 'baja logo.jpg' to the frontend public assets directory as 'baja-logo.jpg' to make it accessible as a static asset throughout the application"
-        },
-        {
           "path": "frontend/src/components/Layout.tsx",
           "operation": "modify",
-          "description": "Update the header logo img src to reference '/assets/baja-logo.jpg' instead of the current generated logo path. Ensure the alt text reflects 'VVCE BAJA Logo' and verify responsive sizing is maintained for both desktop and mobile views"
+          "description": "Update the logo image path to correctly reference 'baja logo.jpg' from frontend/public/assets/. Change from an import statement to a direct public path reference using '/assets/baja logo.jpg' in the img src attribute to ensure the image loads correctly from the public directory."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Replace the cover page jeep photo with the uploaded 'image page.jpg' (baja vehicle on track with driver)",
+      "summary": "Fix the cover image display in Home.tsx - ensure 'image page.jpg' loads correctly from the proper file path and displays without broken image icons",
       "acceptanceCriteria": [
-        "The home page hero section displays the baja vehicle racing image instead of the current jeep photo",
-        "Image fits properly within the hero section layout",
-        "Image quality is preserved"
+        "Cover image displays correctly on the home page",
+        "No broken image icon appears for the cover",
+        "Image loads on page refresh"
       ],
       "file_operations": [
         {
-          "path": "frontend/public/assets/baja-hero.jpg",
-          "operation": "create",
-          "description": "Copy the uploaded 'image page.jpg' to the frontend public assets directory as 'baja-hero.jpg' to replace the current hero image with the racing baja vehicle photo"
+          "path": "frontend/src/pages/Home.tsx",
+          "operation": "modify",
+          "description": "Update the cover image path to correctly reference 'image page.jpg' from frontend/public/assets/. Change from an import statement to a direct public path reference using '/assets/image page.jpg' in the img src attribute to ensure the image loads correctly from the public directory."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Verify image import syntax is correct in both Layout.tsx and Home.tsx - use proper React import statements for static assets or correct public path references",
+      "acceptanceCriteria": [
+        "Images use correct import/path syntax for the build system",
+        "No console errors related to image loading"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "modify",
+          "description": "Remove any incorrect import statements for 'baja logo.jpg' and ensure the img element uses the public path '/assets/baja logo.jpg' directly in the src attribute. Verify proper URL encoding for spaces in the filename if needed."
         },
         {
           "path": "frontend/src/pages/Home.tsx",
           "operation": "modify",
-          "description": "Update the hero section background image or img src to reference '/assets/baja-hero.jpg' instead of the current generated hero image path. Ensure the image maintains proper aspect ratio, fits within the hero section layout, and preserves image quality with appropriate object-fit styling"
+          "description": "Remove any incorrect import statements for 'image page.jpg' and ensure the img element uses the public path '/assets/image page.jpg' directly in the src attribute. Verify proper URL encoding for spaces in the filename if needed."
         }
       ]
     }

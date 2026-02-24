@@ -2,8 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-replace-the-current-logo-image-with-the-uploaded-baja-logo-jpg-vvce-baja-shield-with-red-baja-vehicle-and-checkered-flags",
-      "featureTitle": "Replace the current logo image with the uploaded 'baja logo.jpg' (VVCE BAJA shield with red baja vehicle and checkered flags)",
+      "featureId": "feature-fix-the-logo-image-display-in-layout-tsx-ensure-baja-logo-jpg-loads-correctly-from-the-proper-file-path-frontend-src-assets-or-frontend-public-assets-and-displays-without-broken-image-icons",
+      "featureTitle": "Fix the logo image display in Layout.tsx - ensure 'baja logo.jpg' loads correctly from the proper file path (frontend/src/assets/ or frontend/public/assets/) and displays without broken image icons",
       "files": [
         "frontend/src/components/Layout.tsx"
       ],
@@ -22,8 +22,8 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-replace-the-cover-page-jeep-photo-with-the-uploaded-image-page-jpg-baja-vehicle-on-track-with-driver",
-      "featureTitle": "Replace the cover page jeep photo with the uploaded 'image page.jpg' (baja vehicle on track with driver)",
+      "featureId": "feature-fix-the-cover-image-display-in-home-tsx-ensure-image-page-jpg-loads-correctly-from-the-proper-file-path-frontend-src-assets-or-frontend-public-assets-and-displays-without-broken-image-icons",
+      "featureTitle": "Fix the cover image display in Home.tsx - ensure 'image page.jpg' loads correctly from the proper file path (frontend/src/assets/ or frontend/public/assets/) and displays without broken image icons",
       "files": [
         "frontend/src/pages/Home.tsx"
       ],
@@ -38,6 +38,27 @@
       ],
       "testIds": [
         "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-verify-image-import-syntax-is-correct-in-both-layout-tsx-and-home-tsx-use-proper-react-import-statements-for-static-assets-or-correct-public-path-references",
+      "featureTitle": "Verify image import syntax is correct in both Layout.tsx and Home.tsx - use proper React import statements for static assets or correct public path references",
+      "files": [
+        "frontend/src/components/Layout.tsx",
+        "frontend/src/pages/Home.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
       ],
       "confidence": "high"
     }

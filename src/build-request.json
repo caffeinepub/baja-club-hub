@@ -1,53 +1,69 @@
 {
   "kind": "build_request",
-  "title": "Replace logo and cover page images with custom uploads",
+  "title": "Fix broken logo and cover image display",
   "projectName": "VVCEBAJA",
-  "priority": "normal",
+  "priority": "high",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Replace the current logo image with the uploaded 'baja logo.jpg' (VVCE BAJA shield with red baja vehicle and checkered flags)",
+      "text": "Fix the logo image display in Layout.tsx - ensure 'baja logo.jpg' loads correctly from the proper file path (frontend/src/assets/ or frontend/public/assets/) and displays without broken image icons",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-5"
         ],
         "quotes": [
-          "i need this for logo of 1st image"
+          "both and broken image of logo and cover image ntg i am seeing"
         ]
       },
       "acceptanceCriteria": [
-        "The header logo displays the VVCE BAJA shield design from the uploaded image",
-        "Logo maintains proper aspect ratio and sizing in the header",
-        "Logo is visible on all pages"
+        "Logo image displays correctly in the header",
+        "No broken image icon appears for the logo",
+        "Image loads on page refresh"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Replace the cover page jeep photo with the uploaded 'image page.jpg' (baja vehicle on track with driver)",
+      "text": "Fix the cover image display in Home.tsx - ensure 'image page.jpg' loads correctly from the proper file path (frontend/src/assets/ or frontend/public/assets/) and displays without broken image icons",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-5"
         ],
         "quotes": [
-          "2nd one for the cover page instead of that jeap photo"
+          "both and broken image of logo and cover image ntg i am seeing"
         ]
       },
       "acceptanceCriteria": [
-        "The home page hero section displays the baja vehicle racing image instead of the current jeep photo",
-        "Image fits properly within the hero section layout",
-        "Image quality is preserved"
+        "Cover image displays correctly on the home page",
+        "No broken image icon appears for the cover",
+        "Image loads on page refresh"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Verify image import syntax is correct in both Layout.tsx and Home.tsx - use proper React import statements for static assets or correct public path references",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Images use correct import/path syntax for the build system",
+        "No console errors related to image loading"
       ]
     }
   ],
   "constraints": [
-    "Use the exact uploaded images without modification",
-    "Maintain current layout and responsive behavior"
+    "Use existing image filenames: 'baja logo.jpg' and 'image page.jpg'",
+    "Do not modify backend code",
+    "Maintain current Layout.tsx and Home.tsx component structure"
   ],
   "nonGoals": [
-    "Changing any other branding elements",
-    "Modifying the header or hero section layouts"
+    "Creating new images or replacing existing image files",
+    "Changing the visual design or layout of components",
+    "Adding image optimization or lazy loading features"
   ],
   "imageRequirements": {
     "required": [],
