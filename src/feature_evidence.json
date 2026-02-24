@@ -1,0 +1,47 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-change-the-application-name-from-baja-club-hub-to-vvcebaja-throughout-the-frontend-including-the-html-title-tag-header-logo-text-and-any-other-display-locations",
+      "featureTitle": "Change the application name from 'Baja Club Hub' to 'VVCEBAJA' throughout the frontend, including the HTML title tag, header logo text, and any other display locations",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/components/Layout.tsx",
+        "frontend/src/pages/Home.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-replace-the-footer-text-built-using-caffeine-ai-with-builtbeyondbounds-in-the-layout-component-footer-section",
+      "featureTitle": "Replace the footer text 'built using Caffeine AI' with '#BuiltBeyondBounds' in the Layout component footer section",
+      "files": [
+        "frontend/src/components/Layout.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

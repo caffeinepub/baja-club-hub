@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Baja Club Hub app with member locker for bills, equipment, documents, photos, and drive links. App deployed with Internet Identity authentication. User requesting rebranding to 'VVCEBAJA' and custom footer '#BuiltBeyondBounds'.",
+  "architectural_notes": [
+    "App deployed on Internet Computer with unique canister URL",
+    "Uses Internet Identity for member authentication",
+    "Public sections: home, team, achievements, events",
+    "Private member locker requires authentication"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-change-the-application-name-from-baja-club-hub-to-vvcebaja-throughout-the-frontend-including-the-html-title-tag-header-logo-text-and-any-other-display-locations",
+      "title": "Change the application name from 'Baja Club Hub' to 'VVCEBAJA' throughout the frontend, including the HTML title tag, header logo text, and any other display locations",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-footer-text-built-using-caffeine-ai-with-builtbeyondbounds-in-the-layout-component-footer-section",
+      "title": "Replace the footer text 'built using Caffeine AI' with '#BuiltBeyondBounds' in the Layout component footer section",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Change app name from 'Baja Club Hub' to 'VVCEBAJA'",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Replace footer 'built using Caffeine AI' with '#BuiltBeyondBounds'",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "VVCEBAJA",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

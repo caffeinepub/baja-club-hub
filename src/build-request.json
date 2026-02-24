@@ -1,0 +1,58 @@
+{
+  "kind": "build_request",
+  "title": "Rebrand app name to VVCEBAJA and update footer text",
+  "projectName": "VVCEBAJA",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Change the application name from 'Baja Club Hub' to 'VVCEBAJA' throughout the frontend, including the HTML title tag, header logo text, and any other display locations",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-20"
+        ],
+        "quotes": [
+          "i want the clud name as VVCEBAJA instead of baja club hub"
+        ]
+      },
+      "acceptanceCriteria": [
+        "HTML document title displays 'VVCEBAJA'",
+        "Header/navigation displays 'VVCEBAJA' instead of 'Baja Club Hub'",
+        "All references to 'Baja Club Hub' are replaced with 'VVCEBAJA'"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Replace the footer text 'built using Caffeine AI' with '#BuiltBeyondBounds' in the Layout component footer section",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-20"
+        ],
+        "quotes": [
+          "you have not changed that footer that build with using caffein ai i don't want that instead i want #BuiltBeyondBounds"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Footer displays '#BuiltBeyondBounds' text",
+        "No references to 'Caffeine AI' remain in the footer",
+        "Footer styling remains consistent with existing design"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify backend code or data structures",
+    "Preserve all existing functionality and authentication flows",
+    "Maintain existing UI component structure and styling"
+  ],
+  "nonGoals": [
+    "Changing color scheme or visual design",
+    "Modifying any backend API endpoints or data models",
+    "Adding new features or functionality"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
