@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Web app with member locker, access request flow, and admin panel. Admin panel is not visible after login, access requests are not being stored/shown, and the admin approval/denial flow needs to be fixed.",
+  "architectural_notes": [
+    "App uses Internet Identity for authentication and admin role detection",
+    "Member locker section requires admin-approved access via request flow"
+  ],
+  "known_issues": [
+    "Admin panel not visible after login",
+    "Access requests not being recorded or displayed to admin"
+  ],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-after-a-user-logs-in-with-internet-identity-the-admin-panel-navigation-link-must-be-visible-in-the-header-navigation-for-admin-users-the-admin-panel-should-be-accessible-and-render-the-lockeraccessrequestspanel-component-showing-all-pending-access-requests",
+      "title": "After a user logs in with Internet Identity, the admin panel navigation link must be visible in the header/navigation for admin users. The admin panel should be accessible and render the LockerAccessRequestsPanel component showing all pending access requests.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-a-member-submits-a-locker-access-request-it-must-be-persisted-in-the-backend-and-retrievable-by-the-admin-the-lockeraccessrequestspanel-must-display-all-submitted-requests-with-the-requester-s-principal-timestamp-and-status-and-allow-the-admin-to-approve-or-deny-each-request",
+      "title": "When a member submits a locker access request, it must be persisted in the backend and retrievable by the admin. The LockerAccessRequestsPanel must display all submitted requests with the requester's principal, timestamp, and status, and allow the admin to approve or deny each request.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-the-lockeraccessgate-component-must-correctly-check-whether-the-current-authenticated-user-has-been-approved-for-locker-access-if-the-user-is-not-yet-approved-show-a-clear-ui-to-submit-an-access-request-if-already-approved-render-the-locker-content",
+      "title": "The LockerAccessGate component must correctly check whether the current authenticated user has been approved for locker access. If the user is not yet approved, show a clear UI to submit an access request. If already approved, render the locker content.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Fix admin panel visibility after login with Internet Identity",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Fix access request storage and display so requests are recorded and shown to admin",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "VVCEBAJA",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
